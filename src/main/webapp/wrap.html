@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>WRAP</title>
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	function updateXMLPersonClicked() {
+
+		$
+				.ajax({
+					url : 'rest/personxml/updatexml',
+					type : 'PUT',
+					data : '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><PersonJAXB><personid>'
+							+ $("input[name='PersonId']").val()
+							+ '</personid><firstname>'
+							+ $("input[name='firstname']").val()
+							+ '</firstname><lastname>'
+							+ $("input[name='lastname']").val()
+							+ '</lastname></PersonJAXB>',
+					dataType : 'xml',
+					contentType : "application/xml",
+					success : function(data) {
+						alert('PUT was performed.');
+					}
+				});
+	}
+
+	function addXMLPersonClicked() {
+
+		$
+				.ajax({
+					url : 'car/rule/rulexml',
+					type : 'POST',
+					// 					data : "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+					// 							+ '<wrapperRuleJAXB>'
+					// 							+ '<ruleType>MARKET</ruleType>'
+					// 							+ '<jsonORxml>'
+					// 							+ '<mappingRuleJAXB>'
+					// 							+ '<id>1</id>'
+					// 							+ '<vehicleAttribute>working</vehicleAttribute>'
+					// 							+ '<sourceValue>2000</sourceValue>'
+					// 							+ '<targetValue>2500</targetValue>'
+					// 							+ '</mappingRuleJAXB></jsonORxml>'
+					// 							+ '</wrapperRuleJAXB>',
+					// 					data : "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+					// 							+ "<wrapperRuleJAXB>"
+					// 							+ "<ruleType>MARKET</ruleType>"
+					// 							+ "<jsonORxml>&lt;mappingRuleJAXB&gt;&lt;id&gt;1&lt;/id&gt;&lt;vehicleAttribute&gt;working&lt;/vehicleAttribute&gt;&lt;sourceValue&gt;2000&lt;/sourceValue&gt;&lt;targetValue&gt;2500&lt;/targetValue&gt;&lt;/mappingRuleJAXB&gt;</jsonORxml>"
+					// 							+ "</wrapperRuleJAXB>",
+					data : "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+							+ "<wrapperRuleJAXBs>"
+							+ "<wrapperRuleJAXB>"
+							+ "<ruleType>MAPPING</ruleType>"
+							+ "<jsonORxml>&lt;mappingRuleJAXB&gt;&lt;id&gt;1&lt;/id&gt;&lt;vehicleAttribute&gt;working&lt;/vehicleAttribute&gt;&lt;sourceValue&gt;2000&lt;/sourceValue&gt;&lt;targetValue&gt;2500&lt;/targetValue&gt;&lt;/mappingRuleJAXB&gt;</jsonORxml>"
+							+ "</wrapperRuleJAXB>"
+							+ "<wrapperRuleJAXB>"
+							+ "<ruleType>MARKET</ruleType>"
+							+ "<jsonORxml>&lt;marketRuleJAXB&gt;&lt;countryNumber&gt;BH-20-ATD&lt;/countryNumber&gt;&lt;branch&gt;12&lt;/branch&gt;&lt;stockCategory&gt;NEW&lt;/stockCategory&gt;&lt;active&gt;true&lt;/active&gt;&lt;rule&gt;work&lt;/rule&gt;&lt;/marketRuleJAXB&gt;</jsonORxml>"
+							+ "</wrapperRuleJAXB>" + "</wrapperRuleJAXBs>",
+					dataType : 'xml',
+					contentType : "application/xml",
+					success : function(data) {
+						alert('POST was performed.');
+					},
+					error : function(data, a, b, c) {
+						console.log(a);
+						console.log(b);
+						console.log(c);
+						console.log(data);
+					}
+				});
+	}
+
+	function updateJSONPersonClicked() {
+
+		$.ajax({
+			url : 'rest/personjson/updatejson',
+			type : 'PUT',
+			data : '{"personid" : "' + $("input[name='PersonId']").val()
+					+ '", "firstname" : "' + $("input[name='firstname']").val()
+					+ '", "lastname" : "' + $("input[name='lastname']").val()
+					+ '"}',
+			dataType : 'json',
+			contentType : "application/json; charset=utf-8",
+			success : function(data) {
+				alert('PUT was performed.');
+			}
+		});
+	}
+
+	function addJSONPersonClicked() {
+
+		$.ajax({
+			url : 'car/model/jsonlist',
+			type : 'POST',
+			data : '[' + '{' + '"lastname": "Tuduce",' + '"personid": 1,'
+					+ '"firstname": "Lucian"' + '},' + '{'
+					+ '"lastname": "Marina",' + '"personid": 2,'
+					+ '"firstname": "Paul"' + '}' + ']',
+			dataType : 'json',
+			contentType : "application/json; charset=utf-8",
+			success : function(data) {
+				console.log(data);
+				alert('POST was performed.');
+			}
+		});
+	}
+
+	function deletePersonXMLClicked() {
+
+		$.ajax({
+			url : 'rest/personxml/delete/'
+					+ $("input[name='PersonDeleteId']").val(),
+			type : 'DELETE',
+			dataType : "xml",
+			contentType : "application/xml; charset=utf-8",
+			success : function(data) {
+				alert('DELETE was performed.');
+			}
+		});
+	}
+
+	function deletePersonJSONClicked() {
+
+		$.ajax({
+			url : 'rest/personjson/delete/'
+					+ $("input[name='PersonDeleteId']").val(),
+			type : 'DELETE',
+			dataType : "json",
+			contentType : "application/json; charset=utf-8",
+			success : function(data) {
+				alert('DELETE was performed.');
+			}
+		});
+	}
+
+	function getPersonXMLListClicked() {
+		$.ajax({
+			url : "rest/personxml/allxml",
+			type : "GET",
+			dataType : "xml",
+			success : function(xml) {
+
+				var fn = [];
+				$(xml).find('PersonJAXB').each(function() {
+					$(this).find("firstname").each(function() {
+						var firstname = $(this).text();
+						fn.push(firstname);
+					});
+				});
+
+				var ln = [];
+				$(xml).find('PersonJAXB').each(function() {
+					$(this).find("lastname").each(function() {
+						var lastname = $(this).text();
+						ln.push(lastname);
+					});
+				});
+				var row = "";
+				for (var i = 0; i < fn.length; i++) {
+					row += "<tr><td>" + fn[i] + "</td><td>" + ln[i]
+							+ "</td></tr>";
+				}
+				$("#persons").html(row);
+			}
+		});
+	}
+
+	function getPersonJSONListClicked() {
+		$.ajax({
+			url : "rest/personjson/alljson",
+			type : "GET",
+			contentType : "application/json; charset=utf-8",
+			data : "{}",
+			dataType : "json",
+			success : function(data) {
+				var row = "";
+				$.each(data, function(index, item) {
+					row += "<tr><td>" + item.firstname + "</td><td>"
+							+ item.lastname + "</td></tr>";
+				});
+				$("#persons").html(row);
+			},
+			error : function(result, a, b, c) {
+				alert(a);
+				alert(b);
+				alert(c);
+				alert("Error");
+			}
+		});
+	}
+</script>
+
+</head>
+
+<body>
+
+	<h1 align="center">Car Application Testing</h1>
+	<h4 align="center">Basic functionalities (insert, update, delete,
+		display)</h4>
+
+	<div class="container" style="text-align: center">
+		<p>
+			Person Id : <input type="text" class="form-control"
+				placeholder="Only for update you need to provide an id"
+				name="PersonId" />
+		</p>
+		<p>
+			Firstname : <input type="text" class="form-control" name="firstname" />
+		</p>
+		<p>
+			Lastname : <input type="text" class="form-control" name="lastname" />
+		</p>
+		<input type="button" class="btn btn-primary"
+			onclick="addXMLPersonClicked()" value="Add Person XML" /> <input
+			type="button" class="btn btn-success"
+			onclick="addJSONPersonClicked()" value="Add Person JSON" /> <input
+			type="button" class="btn btn-primary"
+			onclick="updateXMLPersonClicked()" value="Update Person XML" /> <input
+			type="button" class="btn btn-success"
+			onclick="updateJSONPersonClicked()" value="Update Person JSON" />
+	</div>
+	<p></p>
+	<h1 align="center">Delete person from database by ID</h1>
+	<div class="container" style="text-align: center">
+		<p>
+			Person Id : <input type="text" class="form-control"
+				name="PersonDeleteId" />
+		</p>
+		<input type="submit" class="btn btn-primary"
+			onclick="deletePersonXMLClicked()" value="Delete Person XML" /> <input
+			type="submit" class="btn btn-success"
+			onclick="deletePersonJSONClicked()" value="Delete Person JSON" />
+	</div>
+	<h1 align="center">Display All Persons From DB</h1>
+	<div class="container" style="text-align: center">
+		<table class="table table-striped table-hover table-bordered">
+			<thead>
+				<tr>
+					<th class="center">Firstname</th>
+					<th class="center">Lastname</th>
+				</tr>
+			</thead>
+			<tbody id="persons"></tbody>
+		</table>
+		<input type="submit" class="btn btn-primary"
+			onclick="getPersonXMLListClicked()" value="List Persons XML" /> <input
+			type="submit" class="btn btn-success"
+			onclick="getPersonJSONListClicked()" value="List Persons JSON" />
+	</div>
+</body>
+</html>
