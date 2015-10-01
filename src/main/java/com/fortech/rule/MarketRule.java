@@ -1,5 +1,6 @@
 package com.fortech.rule;
 
+
 import com.fortech.enumcategory.StockCategory;
 
 public class MarketRule {
@@ -42,4 +43,7 @@ public class MarketRule {
 		this.rule = rule;
 	}
 	
+	public String toString(){
+		return "[ "+countryNumber+" "+branch+" "+stockCategory+" "+active+" "+rule+" ]";
+	}
 }

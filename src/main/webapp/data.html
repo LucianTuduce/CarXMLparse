@@ -62,12 +62,15 @@
 	function updateJSONPersonClicked() {
 
 		$.ajax({
-			url : 'rest/personjson/updatejson',
-			type : 'PUT',
-			data : '{"personid" : "' + $("input[name='PersonId']").val()
-					+ '", "firstname" : "' + $("input[name='firstname']").val()
-					+ '", "lastname" : "' + $("input[name='lastname']").val()
-					+ '"}',
+			url : 'car/rule/jsonlist/marketrule',
+			type : 'POST',
+			data : '[' + '{' + '"active": false,' + '"branch": 14,'
+					+ '"stockCategory": "USED",'
+					+ '"countryNumber": "BH-93-TUD",' + '"rule": "private"'
+					+ '},' + '{' + '"active": true,' + '"branch": 1,'
+					+ '"stockCategory": "NEW",'
+					+ '"countryNumber": "BH-18-BIO",' + '"rule": "private"'
+					+ '}' + ']',
 			dataType : 'json',
 			contentType : "application/json; charset=utf-8",
 			success : function(data) {
@@ -79,12 +82,13 @@
 	function addJSONPersonClicked() {
 
 		$.ajax({
-			url : 'car/model/jsonlist',
+			url : 'car/rule/jsonlist/mappingrule',
 			type : 'POST',
-			data : '[' + '{' + '"lastname": "Tuduce",' + '"personid": 1,'
-					+ '"firstname": "Lucian"' + '},' + '{'
-					+ '"lastname": "Marina",' + '"personid": 2,'
-					+ '"firstname": "Paul"' + '}' + ']',
+			data : '[' + '{' + '"id": 3,' + '"targetValue": "4999",'
+					+ '"sourceValue": "3000",' + '"vehicleAttribute": "good"'
+					+ '},' + '{' + '"id": 345,' + '"targetValue": "2222",'
+					+ '"sourceValue": "3333",' + '"vehicleAttribute": "bad"'
+					+ '}' + ']',
 			dataType : 'json',
 			contentType : "application/json; charset=utf-8",
 			success : function(data) {

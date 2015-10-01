@@ -1,2 +1,5 @@
-/.apt_generated/
-/target/
+.apt_generated
+.settings
+.classpath
+persistence.xml
+orm.xml

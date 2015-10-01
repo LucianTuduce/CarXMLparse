@@ -1,5 +1,6 @@
 package com.fortech.rest;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,11 @@ import javax.ws.rs.Produces;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+
+
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import com.fortech.defaultobjects.DefaultInitialization;
 import com.fortech.rule.MappingRule;
@@ -26,13 +32,6 @@ public class RuleRestController {
 
 	private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
 
-	// <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-	// <mappingRuleJAXB>
-	// <id>1</id>
-	// <vehicleAttribute>working</vehicleAttribute>
-	// <sourceValue>2000</sourceValue>
-	// <targetValue>2500</targetValue>
-	// </mappingRuleJAXB>
 	@GET
 	@Path("/mappingrule")
 	@Produces("application/xml")
@@ -40,14 +39,6 @@ public class RuleRestController {
 		return DefaultInitialization.cretaeDeafultMappingRuleJAXB();
 	}
 
-	// <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-	// <marketRuleJAXB>
-	// <countryNumber>BH-20-ATD</countryNumber>
-	// <branch>12</branch>
-	// <stockCategory>NEW</stockCategory>
-	// <active>true</active>
-	// <rule>work</rule>
-	// </marketRuleJAXB>
 	@GET
 	@Path("/marketrule")
 	@Produces("application/xml")
@@ -55,12 +46,6 @@ public class RuleRestController {
 		return DefaultInitialization.creteaDeafultMarketRuleJAXB();
 	}
 
-	// {
-	// "id": 3,
-	// "targetValue": "4999",
-	// "sourceValue": "3000",
-	// "vehicleAttribute": "good"
-	// }
 
 	@GET
 	@Path("/mappingrulejson")
@@ -69,18 +54,22 @@ public class RuleRestController {
 		return DefaultInitialization.createDeafultMappingRuleJSON();
 	}
 
-	// {
-	// "active": false,
-	// "branch": 14,
-	// "stockCategory": "USED",
-	// "countryNumber": "BH-93-TUD",
-	// "rule": "private"
-	// }
 	@GET
 	@Path("/marketrulejson")
 	@Produces("application/json")
 	public MarketRule getJSONMarketRule() {
 		return DefaultInitialization.createDefaultMarketRuleJSON();
+	}
+
+	@GET
+	@Path("/wrapii")
+	@Produces("application/json")
+	public WrapperRuleJAXB getWrapper(){
+		WrapperRuleJAXB w = new WrapperRuleJAXB();
+		w.setJsonORxml("[");
+		System.out.println("\"ruleType\": \"MAPPING\",");
+		w.setRuleType(RuleType.MAPPING);
+		return w;
 	}
 
 	@POST
@@ -119,34 +108,6 @@ public class RuleRestController {
 
 	}
 
-	@POST
-	@Path("/rulesimplexml")
-	@Consumes("application/xml")
-	@Produces("application/xml")
-	public List<MappingRuleJAXB> addSimpleWrapperJAXB(
-			final WrapperRuleJAXB ruleJAXBs) throws JAXBException {
-		List<MappingRuleJAXB> convertedList = new ArrayList<MappingRuleJAXB>();
-		if (ruleJAXBs.getRuleType().equals(RuleType.INTERPRETATION)) {
-
-			System.out.println("Do nothing in INTERPRETER");
-
-		} else if (ruleJAXBs.getRuleType().equals(RuleType.MAPPING)) {
-
-			System.out.println("Do nothing in MAPPING");
-
-		} else if (ruleJAXBs.getRuleType().equals(RuleType.MARKET)) {
-			StringReader sr = new StringReader(ruleJAXBs.getJsonORxml());
-			JAXBContext jaxbContext = JAXBContext
-					.newInstance(MappingRuleJAXB.class);
-			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-			MappingRuleJAXB mappingRuleJAXB = (MappingRuleJAXB) unmarshaller
-					.unmarshal(sr);
-			System.out.println(mappingRuleJAXB.getSourceValue());
-			convertedList.add(mappingRuleJAXB);
-		}
-		return convertedList;
-	}
-
 	@GET
 	@Path("/wrapper")
 	@Produces("application/xml")
@@ -164,6 +125,48 @@ public class RuleRestController {
 				.marshallMarketRule(marketRule);
 		jaxbs.add(marketWrapperKAXB);
 		return jaxbs;
+	}
+
+	@POST
+	@Path("/jsonlist/mappingrule")
+	@Consumes("application/json")
+	public void displayJSONMappingRuleList(final List<MappingRule> mappingRules) {
+		for (MappingRule map : mappingRules) {
+			System.out.println(map.toString());
+		}
+	}
+
+	@POST
+	@Path("/jsonlist/marketrule")
+	@Consumes("application/json")
+	public void displayJSONMarketRuleList(final List<MarketRule> marketRules) {
+		for (MarketRule market : marketRules) {
+			System.out.println(market.toString());
+		}
+	}
+
+	@POST
+	@Path("/jsonwrapper")
+	@Consumes("application/json")
+	public void createObjectsFromJSONWrapper(
+			final List<WrapperRuleJAXB> wrapperRules) throws JsonParseException, JsonMappingException, IOException {
+		for (WrapperRuleJAXB wrap : wrapperRules) {
+			if (wrap.getRuleType().equals(RuleType.INTERPRETATION)) {
+
+				System.out.println("Do nothing for interpretation");
+
+			} else if (wrap.getRuleType().equals(RuleType.MAPPING)) {
+
+				MappingRule mappingRule = new ObjectMapper().readValue(wrap.getJsonORxml(), MappingRule.class);
+				System.out.println(mappingRule.toString());
+
+			} else if (wrap.getRuleType().equals(RuleType.MARKET)) {
+
+				MarketRule marketRule = new ObjectMapper().readValue(wrap.getJsonORxml(), MarketRule.class); 
+				System.out.println(marketRule.toString());
+
+			}
+		}
 	}
 
 }

@@ -1,6 +1,8 @@
 package com.fortech.rule;
 
+
 public class MappingRule {
+
 
 	private Long id;
 	private String vehicleAttribute;
@@ -31,6 +33,10 @@ public class MappingRule {
 	}
 	public void setTargetValue(String targetValue) {
 		this.targetValue = targetValue;
+	}
+	
+	public String toString(){
+		return "[ "+id+" "+vehicleAttribute+" "+sourceValue+" "+targetValue+" ]";
 	}
 	
 }
