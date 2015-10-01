@@ -46,7 +46,7 @@ public class DefaultInitialization {
 		return marketRuleJAXB;
 	}
 
-	public static MappingRuleJAXB cretaeDeafultMappingRuleJAXB() {
+	public static MappingRuleJAXB createDeafultMappingRuleJAXB() {
 		MappingRuleJAXB mappingRuleJAXB = new MappingRuleJAXB();
 		mappingRuleJAXB.setId((long) 1);
 		mappingRuleJAXB.setSourceValue("2000");
@@ -54,24 +54,37 @@ public class DefaultInitialization {
 		mappingRuleJAXB.setVehicleAttribute("working");
 		return mappingRuleJAXB;
 	}
-	
-	public static WrapperRuleJAXB marshallMarketRule(MarketRuleJAXB marketRuleJAXB)
-			throws JAXBException, PropertyException {
-		JAXBContext jaxbContext = JAXBContext
-				.newInstance(MarketRuleJAXB.class);
-		StringWriter stringWriter = new StringWriter();
-		Marshaller marshaller = jaxbContext.createMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-		marshaller.marshal(marketRuleJAXB, stringWriter);
-		String xml = stringWriter.toString();
+
+	public static WrapperRuleJAXB marshallMarketRule(
+			MarketRuleJAXB marketRuleJAXB) throws JAXBException,
+			PropertyException {
+		String xml = getXMLStringForMarketRuleJAXB(marketRuleJAXB);
+		WrapperRuleJAXB marketWrapperKAXB = createWrapperRuleMarketJAXB(xml);
+		return marketWrapperKAXB;
+	}
+
+	private static WrapperRuleJAXB createWrapperRuleMarketJAXB(String xml) {
 		WrapperRuleJAXB marketWrapperKAXB = new WrapperRuleJAXB();
 		marketWrapperKAXB.setRuleType(RuleType.MARKET);
 		marketWrapperKAXB.setJsonORxml(xml);
 		return marketWrapperKAXB;
 	}
 
-	public static WrapperRuleJAXB marshallMappingRulle(MappingRuleJAXB mappingRuleJAXB)
-			throws JAXBException, PropertyException {
+	private static String getXMLStringForMarketRuleJAXB(
+			MarketRuleJAXB marketRuleJAXB) throws JAXBException,
+			PropertyException {
+		JAXBContext jaxbContext = JAXBContext.newInstance(MarketRuleJAXB.class);
+		StringWriter stringWriter = new StringWriter();
+		Marshaller marshaller = jaxbContext.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+		marshaller.marshal(marketRuleJAXB, stringWriter);
+		String xml = stringWriter.toString();
+		return xml;
+	}
+
+	public static WrapperRuleJAXB marshallMappingRulle(
+			MappingRuleJAXB mappingRuleJAXB) throws JAXBException,
+			PropertyException {
 		String xml = getXMLStringForMappingRuleJAXB(mappingRuleJAXB);
 		WrapperRuleJAXB wrapperRuleJAXB = createWrapperRuleMappingJAXB(xml);
 		return wrapperRuleJAXB;
@@ -89,7 +102,7 @@ public class DefaultInitialization {
 		String xml = stringWriter.toString();
 		return xml;
 	}
-
+	
 	private static WrapperRuleJAXB createWrapperRuleMappingJAXB(String xml) {
 		WrapperRuleJAXB wrapperRuleJAXB = new WrapperRuleJAXB();
 		wrapperRuleJAXB.setRuleType(RuleType.MAPPING);
@@ -97,4 +110,26 @@ public class DefaultInitialization {
 		return wrapperRuleJAXB;
 	}
 	
+	public static String createDefaultMarshallMappingRuleJAXB() throws JAXBException{
+		MappingRuleJAXB mappingRuleJAXB = createDeafultMappingRuleJAXB();
+		JAXBContext jaxbContext = JAXBContext.newInstance(MappingRuleJAXB.class);
+		StringWriter stringWriter = new StringWriter();
+		Marshaller marshaller = jaxbContext.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+		marshaller.marshal(mappingRuleJAXB, stringWriter);
+		String xml = stringWriter.toString();
+		return xml;
+	}
+	
+	public static String createDefaultMarshallMarketRuleJAXB() throws JAXBException{
+		MarketRuleJAXB marketRuleJAXB = creteaDeafultMarketRuleJAXB();
+		JAXBContext jaxbContext = JAXBContext.newInstance(MarketRuleJAXB.class);
+		StringWriter stringWriter = new StringWriter();
+		Marshaller marshaller = jaxbContext.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+		marshaller.marshal(marketRuleJAXB, stringWriter);
+		String xml = stringWriter.toString();
+		return xml;
+	}
+
 }

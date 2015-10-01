@@ -1,4 +1,4 @@
-package com.fortech.dynamicObjectCreate;
+package com.fortech.restDynamicObjectCreate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +23,18 @@ public class WrapRestTemplate {
 	@GET
 	@Path("/xml")
 	@Produces("application/xml")
-	public List<WrapperRuleJAXB> getXMLWrapper() throws JAXBException {
+	public List<WrapperRuleJAXB> getDefaultXMLWrapper() throws JAXBException {
 		List<WrapperRuleJAXB> jaxbs = new ArrayList<WrapperRuleJAXB>();
 		MappingRuleJAXB mappingRuleJAXB = DefaultInitialization
-				.cretaeDeafultMappingRuleJAXB();
+				.createDeafultMappingRuleJAXB();
 		WrapperRuleJAXB wrapperRuleJAXB = DefaultInitialization
 				.marshallMappingRulle(mappingRuleJAXB);
 		jaxbs.add(wrapperRuleJAXB);
 
-		MarketRuleJAXB marketRule = DefaultInitialization
+		MarketRuleJAXB marketRuleJAXB = DefaultInitialization
 				.creteaDeafultMarketRuleJAXB();
 		WrapperRuleJAXB marketWrapperKAXB = DefaultInitialization
-				.marshallMarketRule(marketRule);
+				.marshallMarketRule(marketRuleJAXB);
 		jaxbs.add(marketWrapperKAXB);
 		return jaxbs;
 	}
