@@ -2,17 +2,18 @@ package com.fortech.rest;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+
 
 
 import org.codehaus.jackson.JsonParseException;
@@ -33,49 +34,38 @@ public class RuleRestController {
 	private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
 
 	@GET
-	@Path("/mappingrule")
+	@Path("/mapping/xml/{idMapppingRule}")
 	@Produces("application/xml")
-	public MappingRuleJAXB getMappingRule() {
+	public MappingRuleJAXB getXMLMappingRule(@PathParam("idMapppingRule") int idMapppingRule) {
 		return DefaultInitialization.cretaeDeafultMappingRuleJAXB();
 	}
 
 	@GET
-	@Path("/marketrule")
+	@Path("/market/xml/{idMarketRule}")
 	@Produces("application/xml")
-	public MarketRuleJAXB getMarketRule() {
+	public MarketRuleJAXB getXMLMarketRule(@PathParam("idMarketRule") int idMarketRule) {
 		return DefaultInitialization.creteaDeafultMarketRuleJAXB();
 	}
 
 
 	@GET
-	@Path("/mappingrulejson")
+	@Path("/mapping/json/{idMapppingRule}")
 	@Produces("application/json")
-	public MappingRule getJSONMappingRule() {
+	public MappingRule getJSONMappingRule(@PathParam("idMapppingRule") int idMapppingRule) {
 		return DefaultInitialization.createDeafultMappingRuleJSON();
 	}
 
 	@GET
-	@Path("/marketrulejson")
+	@Path("/market/json/{idMarketRule}")
 	@Produces("application/json")
-	public MarketRule getJSONMarketRule() {
+	public MarketRule getJSONMarketRule(@PathParam("idMarketRule") int idMarketRule) {
 		return DefaultInitialization.createDefaultMarketRuleJSON();
 	}
 
-	@GET
-	@Path("/wrapii")
-	@Produces("application/json")
-	public WrapperRuleJAXB getWrapper(){
-		WrapperRuleJAXB w = new WrapperRuleJAXB();
-		w.setJsonORxml("[");
-		System.out.println("\"ruleType\": \"MAPPING\",");
-		w.setRuleType(RuleType.MAPPING);
-		return w;
-	}
-
 	@POST
-	@Path("/rulexml")
+	@Path("/wrapper/xml")
 	@Consumes("application/xml")
-	public void addWrapperJAXB(final List<WrapperRuleJAXB> ruleJAXBs)
+	public void createMarketRuleOrMappingRuleOrInterpretationRuleFromXMLWrapper(final List<WrapperRuleJAXB> ruleJAXBs)
 			throws JAXBException {
 		for (WrapperRuleJAXB jaxb : ruleJAXBs) {
 			if (jaxb.getRuleType().equals(RuleType.INTERPRETATION)) {
@@ -108,49 +98,12 @@ public class RuleRestController {
 
 	}
 
-	@GET
-	@Path("/wrapper")
-	@Produces("application/xml")
-	public List<WrapperRuleJAXB> getXMLWrapper() throws JAXBException {
-		List<WrapperRuleJAXB> jaxbs = new ArrayList<WrapperRuleJAXB>();
-		MappingRuleJAXB mappingRuleJAXB = DefaultInitialization
-				.cretaeDeafultMappingRuleJAXB();
-		WrapperRuleJAXB wrapperRuleJAXB = DefaultInitialization
-				.marshallMappingRulle(mappingRuleJAXB);
-		jaxbs.add(wrapperRuleJAXB);
-
-		MarketRuleJAXB marketRule = DefaultInitialization
-				.creteaDeafultMarketRuleJAXB();
-		WrapperRuleJAXB marketWrapperKAXB = DefaultInitialization
-				.marshallMarketRule(marketRule);
-		jaxbs.add(marketWrapperKAXB);
-		return jaxbs;
-	}
-
 	@POST
-	@Path("/jsonlist/mappingrule")
+	@Path("/wrapper/json")
 	@Consumes("application/json")
-	public void displayJSONMappingRuleList(final List<MappingRule> mappingRules) {
-		for (MappingRule map : mappingRules) {
-			System.out.println(map.toString());
-		}
-	}
-
-	@POST
-	@Path("/jsonlist/marketrule")
-	@Consumes("application/json")
-	public void displayJSONMarketRuleList(final List<MarketRule> marketRules) {
-		for (MarketRule market : marketRules) {
-			System.out.println(market.toString());
-		}
-	}
-
-	@POST
-	@Path("/jsonwrapper")
-	@Consumes("application/json")
-	public void createObjectsFromJSONWrapper(
-			final List<WrapperRuleJAXB> wrapperRules) throws JsonParseException, JsonMappingException, IOException {
-		for (WrapperRuleJAXB wrap : wrapperRules) {
+	public void createMarketRuleOrMappingRuleOrInterpretationRuleFromJSONWrapper(
+			final List<WrapperRuleJAXB> wrapperRuleJAXBs) throws JsonParseException, JsonMappingException, IOException {
+		for (WrapperRuleJAXB wrap : wrapperRuleJAXBs) {
 			if (wrap.getRuleType().equals(RuleType.INTERPRETATION)) {
 
 				System.out.println("Do nothing for interpretation");
