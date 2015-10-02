@@ -56,14 +56,14 @@ public class DefaultInitialization {
 	}
 
 	public static WrapperRuleJAXB marshallMarketRule(
-			MarketRuleJAXB marketRuleJAXB) throws JAXBException,
+			final MarketRuleJAXB marketRuleJAXB) throws JAXBException,
 			PropertyException {
 		String xml = getXMLStringForMarketRuleJAXB(marketRuleJAXB);
 		WrapperRuleJAXB marketWrapperKAXB = createWrapperRuleMarketJAXB(xml);
 		return marketWrapperKAXB;
 	}
 
-	private static WrapperRuleJAXB createWrapperRuleMarketJAXB(String xml) {
+	private static WrapperRuleJAXB createWrapperRuleMarketJAXB(final String xml) {
 		WrapperRuleJAXB marketWrapperKAXB = new WrapperRuleJAXB();
 		marketWrapperKAXB.setRuleType(RuleType.MARKET);
 		marketWrapperKAXB.setJsonORxml(xml);
@@ -71,7 +71,7 @@ public class DefaultInitialization {
 	}
 
 	private static String getXMLStringForMarketRuleJAXB(
-			MarketRuleJAXB marketRuleJAXB) throws JAXBException,
+			final MarketRuleJAXB marketRuleJAXB) throws JAXBException,
 			PropertyException {
 		JAXBContext jaxbContext = JAXBContext.newInstance(MarketRuleJAXB.class);
 		StringWriter stringWriter = new StringWriter();
@@ -83,7 +83,7 @@ public class DefaultInitialization {
 	}
 
 	public static WrapperRuleJAXB marshallMappingRulle(
-			MappingRuleJAXB mappingRuleJAXB) throws JAXBException,
+			final MappingRuleJAXB mappingRuleJAXB) throws JAXBException,
 			PropertyException {
 		String xml = getXMLStringForMappingRuleJAXB(mappingRuleJAXB);
 		WrapperRuleJAXB wrapperRuleJAXB = createWrapperRuleMappingJAXB(xml);
@@ -91,7 +91,7 @@ public class DefaultInitialization {
 	}
 
 	private static String getXMLStringForMappingRuleJAXB(
-			MappingRuleJAXB mappingRuleJAXB) throws JAXBException,
+			final MappingRuleJAXB mappingRuleJAXB) throws JAXBException,
 			PropertyException {
 		JAXBContext jaxbContext = JAXBContext
 				.newInstance(MappingRuleJAXB.class);
@@ -103,7 +103,7 @@ public class DefaultInitialization {
 		return xml;
 	}
 	
-	private static WrapperRuleJAXB createWrapperRuleMappingJAXB(String xml) {
+	private static WrapperRuleJAXB createWrapperRuleMappingJAXB(final String xml) {
 		WrapperRuleJAXB wrapperRuleJAXB = new WrapperRuleJAXB();
 		wrapperRuleJAXB.setRuleType(RuleType.MAPPING);
 		wrapperRuleJAXB.setJsonORxml(xml);
@@ -130,6 +130,21 @@ public class DefaultInitialization {
 		marshaller.marshal(marketRuleJAXB, stringWriter);
 		String xml = stringWriter.toString();
 		return xml;
+	}
+	
+	
+	public static WrapperRuleJAXB createWrapperRuleForMarketRulaJAXB(final String market) {
+		WrapperRuleJAXB wrapperRuleJAXB2 = new WrapperRuleJAXB();
+		wrapperRuleJAXB2.setRuleType(RuleType.MARKET);
+		wrapperRuleJAXB2.setJsonORxml(market);
+		return wrapperRuleJAXB2;
+	}
+
+	public static WrapperRuleJAXB createWrapperRuleForMappingRuleJAXB(final String map) {
+		WrapperRuleJAXB wrapperRuleJAXB = new WrapperRuleJAXB();
+		wrapperRuleJAXB.setRuleType(RuleType.MAPPING);
+		wrapperRuleJAXB.setJsonORxml(map);
+		return wrapperRuleJAXB;
 	}
 
 }
