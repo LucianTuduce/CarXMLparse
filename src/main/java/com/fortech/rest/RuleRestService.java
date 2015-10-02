@@ -1,18 +1,24 @@
 package com.fortech.rest;
 
+import java.util.List;
+
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import com.fortech.defaultobjects.DefaultInitialization;
 import com.fortech.rule.MappingRule;
 import com.fortech.rule.MarketRule;
 import com.fortech.rulejaxb.MappingRuleJAXB;
 import com.fortech.rulejaxb.MarketRuleJAXB;
+import com.fortech.wrapper.WrapperRuleJAXB;
 
 @Path("/rule")
-public class RuleRestController {	
+public class RuleRestService {	
 
 	@GET
 	@Path("/mapping/xml/{idMapppingRule}")
@@ -44,6 +50,26 @@ public class RuleRestController {
 	public MarketRule getJSONMarketRule(
 			@PathParam("idMarketRule") int idMarketRule) {
 		return DefaultInitialization.createDefaultMarketRuleJSON();
+	}
+	
+	@POST
+	@Path("/addjson")
+	@Consumes("application/json")
+	public Response insertInDatabaseNewRulesJSON(final List<WrapperRuleJAXB> wrappers){
+		for(WrapperRuleJAXB wrap: wrappers){
+			System.out.println(wrap.toString());
+		}
+		return Response.status(200).entity("Objects inserted with success").build();
+	}
+	
+	@POST
+	@Path("/addxml")
+	@Consumes("application/xml")
+	public Response insertInDatabaseNewRulesXML(final List<WrapperRuleJAXB> wrappers){
+		for(WrapperRuleJAXB wrap: wrappers){
+			System.out.println(wrap.toString());
+		}
+		return Response.status(200).entity("Objects inserted with success").build();
 	}
 	
 }

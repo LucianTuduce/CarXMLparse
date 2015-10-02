@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.fortech.defaultobjects.DefaultInitialization;
 import com.fortech.rule.MappingRule;
 import com.fortech.rulejaxb.MappingRuleJAXB;
 import com.fortech.wrapper.WrapperRuleJAXB;

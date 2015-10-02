@@ -28,4 +28,8 @@ public class WrapperRuleJAXB {
 	public void setJsonORxml(String jsonORxml) {
 		this.jsonORxml = jsonORxml;
 	}
+	
+	public String toString(){
+		return "[ "+ruleType+" "+jsonORxml+" ]";
+	}
 }
