@@ -25,8 +25,8 @@ import com.fortech.wrapper.WrapperRuleJAXB;
 public class RuleRESTfulService {
 
 	@GET
-	@Path("/{ruleType}/{idRule}")
-	@Produces({ "application/xml", "application/json" })
+	@Path("/{ruleType}/{xmlORjson}/{idRule}")
+	@Produces({ "application/json", "application/xml" })
 	public List<WrapperRuleJAXB> getRule(
 			@PathParam("xmlORjson") String xmlORjson,
 			@PathParam("ruleType") String ruleType,
