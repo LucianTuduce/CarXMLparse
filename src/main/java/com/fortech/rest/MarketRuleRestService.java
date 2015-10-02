@@ -1,5 +1,6 @@
 package com.fortech.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -12,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.fortech.defaultobjects.DefaultInitialization;
 import com.fortech.rule.MarketRule;
 import com.fortech.rulejaxb.MarketRuleJAXB;
 import com.fortech.wrapper.WrapperRuleJAXB;
@@ -23,28 +25,42 @@ public class MarketRuleRestService {
 	@Path("/allxml")
 	@Produces("application/xml")
 	public List<MarketRuleJAXB> getAllXMLMarketRuleJAXB(){
-		return null;
+		
+		List<MarketRuleJAXB> marketRuleJAXBs = new ArrayList<MarketRuleJAXB>();
+		MarketRuleJAXB marketRuleJAXB = DefaultInitialization.creteaDeafultMarketRuleJAXB();
+		MarketRuleJAXB marketRuleJAXB2 = DefaultInitialization.creteaDeafultMarketRuleJAXB();
+		marketRuleJAXBs.add(marketRuleJAXB);
+		marketRuleJAXBs.add(marketRuleJAXB2);
+		
+		return marketRuleJAXBs;
 	}
 	
 	@GET
 	@Path("/alljson")
 	@Produces("application/json")
 	public List<MarketRule> getAllJSONMarketRule(){
-		return null;
+		
+		List<MarketRule> marketRules = new ArrayList<MarketRule>();
+		MarketRule marketRule = DefaultInitialization.createDefaultMarketRuleJSON();
+		MarketRule marketRule2 = DefaultInitialization.createDefaultMarketRuleJSON();
+		marketRules.add(marketRule);
+		marketRules.add(marketRule2);
+		
+		return marketRules;
 	}
 		
 	@GET
 	@Path("/onexml/{idWrapperRule}")
 	@Produces("application/xml")
-	public WrapperRuleJAXB getOneXMLMarketRuleJAXB(@PathParam("idWrapperRule") int idWrapperRule){
-		return null;
+	public MarketRuleJAXB getOneXMLMarketRuleJAXB(@PathParam("idWrapperRule") int idWrapperRule){
+		return DefaultInitialization.creteaDeafultMarketRuleJAXB();
 	}
 	
 	@GET
 	@Path("/onejson/{idWrapperRule}")
 	@Produces("application/json")
-	public WrapperRuleJAXB getOneJSONMarketRule(@PathParam("idWrapperRule") int idWrapperRule){
-		return null;
+	public MarketRule getOneJSONMarketRule(@PathParam("idWrapperRule") int idWrapperRule){
+		return DefaultInitialization.createDefaultMarketRuleJSON();
 	}
 	
 	@DELETE

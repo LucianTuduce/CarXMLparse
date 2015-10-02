@@ -36,14 +36,14 @@ public class InterpretationRuleRestService {
 	@GET
 	@Path("/onexml/{idWrapperRule}")
 	@Produces("application/xml")
-	public WrapperRuleJAXB getOneXMLInterpretationRuleJAXB(@PathParam("idWrapperRule") int idWrapperRule){
+	public InterpretationRuleJAXB getOneXMLInterpretationRuleJAXB(@PathParam("idWrapperRule") int idWrapperRule){
 		return null;
 	}
 	
 	@GET
 	@Path("/onejson/{idWrapperRule}")
 	@Produces("application/json")
-	public WrapperRuleJAXB getOneJSONInterpretationRule(@PathParam("idWrapperRule") int idWrapperRule){
+	public InterpretationRule getOneJSONInterpretationRule(@PathParam("idWrapperRule") int idWrapperRule){
 		return null;
 	}
 	

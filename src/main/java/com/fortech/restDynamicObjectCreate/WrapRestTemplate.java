@@ -28,7 +28,7 @@ import com.fortech.rulejaxb.MarketRuleJAXB;
 import com.fortech.ruletype.RuleType;
 import com.fortech.wrapper.WrapperRuleJAXB;
 
-@Path("/wrapper")
+@Path("/test")
 public class WrapRestTemplate {
 
 	private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";

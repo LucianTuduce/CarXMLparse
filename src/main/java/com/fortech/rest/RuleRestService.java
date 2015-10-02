@@ -56,20 +56,23 @@ public class RuleRestService {
 	@Path("/addjson")
 	@Consumes("application/json")
 	public Response insertInDatabaseNewRulesJSON(final List<WrapperRuleJAXB> wrappers){
+		String data = "";
 		for(WrapperRuleJAXB wrap: wrappers){
-			System.out.println(wrap.toString());
+			data = data + " " +wrap.toString();
 		}
-		return Response.status(200).entity("Objects inserted with success").build();
+		return Response.status(200).entity(data).build();
 	}
+	
 	
 	@POST
 	@Path("/addxml")
 	@Consumes("application/xml")
 	public Response insertInDatabaseNewRulesXML(final List<WrapperRuleJAXB> wrappers){
+		String data = "";
 		for(WrapperRuleJAXB wrap: wrappers){
-			System.out.println(wrap.toString());
+			data = data + " " +wrap.toString();
 		}
-		return Response.status(200).entity("Objects inserted with success").build();
+		return Response.status(200).entity(data).build();
 	}
 	
 }

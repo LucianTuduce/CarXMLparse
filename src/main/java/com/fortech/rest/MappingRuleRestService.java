@@ -1,5 +1,6 @@
 package com.fortech.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -11,6 +12,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.PropertyException;
 
 import com.fortech.defaultobjects.DefaultInitialization;
 import com.fortech.rule.MappingRule;
@@ -24,28 +27,42 @@ public class MappingRuleRestService {
 	@Path("/allxml")
 	@Produces("application/xml")
 	public List<MappingRuleJAXB> getAllXMLMappingRuleJAXB(){
-		return null;
+		
+		List<MappingRuleJAXB> mappingRuleJAXBs = new ArrayList<MappingRuleJAXB>();
+		MappingRuleJAXB mappingRuleJAXB = DefaultInitialization.createDeafultMappingRuleJAXB();
+		MappingRuleJAXB mappingRuleJAXB2 = DefaultInitialization.createDeafultMappingRuleJAXB();
+		mappingRuleJAXBs.add(mappingRuleJAXB);
+		mappingRuleJAXBs.add(mappingRuleJAXB2);
+		
+		return mappingRuleJAXBs;
 	}
 	
 	@GET
 	@Path("/alljson")
 	@Produces("application/json")
 	public List<MappingRule> getAllJSONMappingRule(){
-		return null;
+		
+		List<MappingRule> mappingRules = new ArrayList<MappingRule>();
+		MappingRule mappingRule = DefaultInitialization.createDeafultMappingRuleJSON();
+		MappingRule mappingRule2 = DefaultInitialization.createDeafultMappingRuleJSON();
+		mappingRules.add(mappingRule);
+		mappingRules.add(mappingRule2);
+		
+		return mappingRules;
 	}
 		
 	@GET
 	@Path("/onexml/{idWrapperRule}")
 	@Produces("application/xml")
-	public WrapperRuleJAXB getOneXMLMappingRuleJAXB(@PathParam("idWrapperRule") int idWrapperRule){
-		return null;
+	public MappingRuleJAXB getOneXMLMappingRuleJAXB(@PathParam("idWrapperRule") int idWrapperRule) throws PropertyException, JAXBException{
+		return DefaultInitialization.createDeafultMappingRuleJAXB();
 	}
 	
 	@GET
 	@Path("/onejson/{idWrapperRule}")
 	@Produces("application/json")
-	public WrapperRuleJAXB getOneJSONMappingRule(@PathParam("idWrapperRule") int idWrapperRule){
-		return null;
+	public MappingRule getOneJSONMappingRule(@PathParam("idWrapperRule") int idWrapperRule){
+		return DefaultInitialization.createDeafultMappingRuleJSON();
 	}
 	
 	@DELETE
