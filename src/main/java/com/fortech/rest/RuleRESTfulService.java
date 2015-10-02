@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,11 +20,15 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 
 import com.fortech.defaultobjects.Initializator;
+import com.fortech.service.MarketRuleService;
 import com.fortech.wrapper.WrapperRuleJAXB;
 
 @Path("/rule")
 public class RuleRESTfulService {
-
+	
+	@EJB
+	private MarketRuleService marketRuleService;
+	
 	@GET
 	@Path("/{ruleType}/{xmlORjson}/{idRule}")
 	@Produces({ "application/json", "application/xml" })
@@ -52,6 +57,7 @@ public class RuleRESTfulService {
 				rules.add(Initializator.createJSONWrapperRuleForMarketRule());
 			}
 		}
+		marketRuleService.printCeva();
 		return rules;
 	}
 
